@@ -131,5 +131,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.update(employee);
 
     }
+    /* 修改密码 */
+    @Override
+    public void updatePassword(Employee employee) {
+        // 从前端或调用方传入的 employee 对象应该包含：
+        // - id（员工唯一标识，必填，用于知道改谁的密码）
+        // - password（新密码，必填）
+
+        // 建议：对密码进行加密（如果你之前存的是加密密码）
+        String encryptedPassword = DigestUtils.md5DigestAsHex(employee.getPassword().getBytes());
+
+        // 构建一个用于更新的对象，只包含必要字段：id 和 password
+        Employee employeeToUpdate = new Employee();
+        employeeToUpdate.setId(employee.getId());
+        employeeToUpdate.setPassword(encryptedPassword);
+        employeeToUpdate.setUpdateTime(LocalDateTime.now());
+        employeeToUpdate.setUpdateUser(BaseContext.getCurrentId());
+
+        // 调用 Mapper 更新
+        employeeMapper.update(employeeToUpdate);
+    }
 
 }

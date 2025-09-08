@@ -121,4 +121,12 @@ public class EmployeeController {
         employeeService.update(employeeDTO);
         return Result.success();
     }
+    /*修改密码*/
+    @PutMapping("/editPassword")
+    @ApiOperation("修改密码")
+    public Result updatePassword(@RequestBody Employee employee) {
+        log.info("员工信息为{}", employee);
+        employeeService.updatePassword(employee);
+        return Result.success();
+    }
 }
