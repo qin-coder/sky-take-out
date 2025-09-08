@@ -67,7 +67,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     新增员工*/
+     * 新增员工
+     */
     public void save(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         //对象属性copy
@@ -89,14 +90,29 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     *分页查询*/
+     * 分页查询
+     */
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         //开始分页查询
-        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
-        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+        PageHelper.startPage(employeePageQueryDTO.getPage(),
+                employeePageQueryDTO.getPageSize());
+        Page<Employee> page =
+                employeeMapper.pageQuery(employeePageQueryDTO);
         long total = page.getTotal();
         List<Employee> records = page.getResult();
         return new PageResult(total, records);
+    }
+
+    /*
+     * 禁用启用员工账号*/
+    @Override
+    public void startOrStop(Integer status, Long id) {
+//        Employee employee = new Employee();
+//        employee.setStatus(status);
+//        employee.setId(id);
+        Employee employee =
+                Employee.builder().status(status).id(id).build();
+        employeeMapper.update(employee);
     }
 
 }
