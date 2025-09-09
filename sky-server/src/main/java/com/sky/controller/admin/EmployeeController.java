@@ -76,7 +76,12 @@ public class EmployeeController {
         return Result.success();
     }
 
-    /*新增员工*/
+    /**
+     *
+     * @param employeeDTO
+     * 新增员工
+     * @return
+     */
     @PostMapping
     @ApiOperation("新增员工")
     public Result save(@RequestBody EmployeeDTO employeeDTO) {
@@ -85,8 +90,11 @@ public class EmployeeController {
         return Result.success();
     }
 
-    /*
-    员工分页查询*/
+    /**
+     * 员工分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
     @GetMapping("/page")
     @ApiOperation("员工分页查询")
     public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO) {
@@ -96,8 +104,14 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
-    /*
-     * 禁用启用员工账号*/
+
+
+    /**
+     * 禁用启用员工账号
+     * @param status
+     * @param id
+     * @return
+     */
     @PostMapping("status/{status}")
     @ApiOperation("禁用启用员工账号")
     public Result startOrStop(@PathVariable Integer status, Long id) {
@@ -105,7 +119,12 @@ public class EmployeeController {
         employeeService.startOrStop(status, id);
         return Result.success();
     }
-    /*根据id查询员工信息*/
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询员工信息")
     public Result<Employee> getById(@PathVariable Long id) {
@@ -113,7 +132,12 @@ public class EmployeeController {
         Employee employee = employeeService.getById(id);
         return Result.success(employee);
     }
-    /*编辑员工信息*/
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     * @return
+     */
     @PutMapping
     @ApiOperation("编辑员工信息")
     public Result  update(@RequestBody EmployeeDTO employeeDTO) {
@@ -121,7 +145,12 @@ public class EmployeeController {
         employeeService.update(employeeDTO);
         return Result.success();
     }
-    /*修改密码*/
+
+    /**
+     * 修改密码
+     * @param employee
+     * @return
+     */
     @PutMapping("/editPassword")
     @ApiOperation("修改密码")
     public Result updatePassword(@RequestBody Employee employee) {
