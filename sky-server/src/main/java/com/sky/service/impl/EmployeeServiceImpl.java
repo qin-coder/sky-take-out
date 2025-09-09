@@ -137,7 +137,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         // 从前端或调用方传入的 employee 对象应该包含：
         // - id（员工唯一标识，必填，用于知道改谁的密码）
         // - password（新密码，必填）
-
         // 建议：对密码进行加密（如果你之前存的是加密密码）
         String encryptedPassword = DigestUtils.md5DigestAsHex(employee.getPassword().getBytes());
 
