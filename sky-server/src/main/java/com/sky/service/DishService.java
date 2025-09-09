@@ -1,14 +1,18 @@
 package com.sky.service;
 
+import com.sky.annotation.AutoFill;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.enumeration.OperationType;
 import com.sky.result.PageResult;
+import com.sky.vo.DishVO;
 
 import java.util.List;
 
 public interface DishService {
     /**
      * 新增菜品和对应的口味数据
+     *
      * @param dishDTO
      */
     public void saveWithFlavor(DishDTO dishDTO);
@@ -16,4 +20,15 @@ public interface DishService {
     PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
 
     void delete(List<Long> ids);
+
+    /**
+     * 根据id查询菜品和对应口味数据
+     *
+     * @param id
+     * @return
+     */
+    DishVO getByIdWithFlavor(Long id);
+
+    @AutoFill(value = OperationType.INSERT)
+    void update(DishDTO dishDTO);
 }
