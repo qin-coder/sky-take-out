@@ -9,13 +9,16 @@ import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
+import com.sky.dto.PasswordEditDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
+import com.sky.exception.BaseException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +26,7 @@ import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Slf4j
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -114,10 +117,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 Employee.builder().status(status).id(id).build();
         employeeMapper.update(employee);
     }
+
     /*根据id查询员工信息*/
     @Override
     public Employee getById(Long id) {
-        Employee employee =  employeeMapper.getById(id);
+        Employee employee = employeeMapper.getById(id);
         employee.setPassword("****");
         return employee;
     }
@@ -131,21 +135,31 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.update(employee);
 
     }
-    /* 修改密码 */
-    @Override
-    public void updatePassword(Employee employee) {
+
+    /**
+     *
+     * @param passwordEditDTO
+     */
+
+    public void updatePassword(PasswordEditDTO passwordEditDTO) {
         // 从前端或调用方传入的 employee 对象应该包含：
-        // - id（员工唯一标识，必填，用于知道改谁的密码）
+        // - EmpId（员工唯一标识，必填，用于知道改谁的密码）
         // - password（新密码，必填）
         // 建议：对密码进行加密（如果你之前存的是加密密码）
-        String encryptedPassword = DigestUtils.md5DigestAsHex(employee.getPassword().getBytes());
+        if (passwordEditDTO == null || passwordEditDTO.getEmpId() == null) {
+            throw new IllegalArgumentException("员工ID不能为空，请传入正确的员工ID");
+        }
+        if (passwordEditDTO.getNewPassword() == null || passwordEditDTO.getNewPassword().isBlank()) {
+            throw new IllegalArgumentException("新密码不能为空");
+        }
+
+        String encryptedPassword =
+                DigestUtils.md5DigestAsHex(passwordEditDTO.getNewPassword().getBytes());
 
         // 构建一个用于更新的对象，只包含必要字段：id 和 password
         Employee employeeToUpdate = new Employee();
-        employeeToUpdate.setId(employee.getId());
+        employeeToUpdate.setId(passwordEditDTO.getEmpId());
         employeeToUpdate.setPassword(encryptedPassword);
-        //employeeToUpdate.setUpdateTime(LocalDateTime.now());
-        //employeeToUpdate.setUpdateUser(BaseContext.getCurrentId());
         // 调用 Mapper 更新
 
         employeeMapper.update(employeeToUpdate);
