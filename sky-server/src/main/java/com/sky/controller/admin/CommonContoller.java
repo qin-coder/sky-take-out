@@ -34,7 +34,6 @@ public class CommonContoller {
     @ApiOperation("文件上传")
     @PostMapping("/upload")
     public Result<String> upload(MultipartFile file){
-        log.info("文件上传：{}",file);
         try {
             //  获取原始文件名
             String originalFilename = file.getOriginalFilename();
