@@ -8,7 +8,9 @@ import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
+import com.sky.entity.Setmeal;
 import com.sky.exception.DeletionNotAllowedException;
+import com.sky.exception.SetmealEnableFailedException;
 import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealDishMapper;
@@ -159,6 +161,7 @@ public class DishServiceImpl implements DishService {
 
     /**
      * 条件查询菜品和口味
+     *
      * @param dish
      * @return
      */
@@ -169,15 +172,38 @@ public class DishServiceImpl implements DishService {
 
         for (Dish d : dishList) {
             DishVO dishVO = new DishVO();
-            BeanUtils.copyProperties(d,dishVO);
+            BeanUtils.copyProperties(d, dishVO);
 
             //根据菜品id查询对应的口味
-            List<DishFlavor> flavors = dishFlavorMapper.getByDishId(d.getId());
+            List<DishFlavor> flavors =
+                    dishFlavorMapper.getByDishId(d.getId());
 
             dishVO.setFlavors(flavors);
             dishVOList.add(dishVO);
         }
 
         return dishVOList;
+    }
+
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        //起售套餐时，判断套餐内是否有停售菜品，有停售菜品提示"套餐内包含未启售菜品，无法启售"
+        if (status == StatusConstant.ENABLE) {
+
+            List<Dish> dishList = dishMapper.getBySetmealId(id);
+            if (dishList != null && dishList.size() > 0) {
+                dishList.forEach(dish -> {
+                    if (StatusConstant.DISABLE == dish.getStatus()) {
+                        throw new SetmealEnableFailedException(MessageConstant.SETMEAL_ENABLE_FAILED);
+                    }
+                });
+            }
+        }
+        Dish dish = Dish.builder()
+                .id(id)
+                .status(status)
+                .build();
+        dishMapper.update(dish);
+
     }
 }
