@@ -71,7 +71,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     }
 
-    @Override
+
     public List<ShoppingCart> showShoppingCart() {
         Long userId = BaseContext.getCurrentId();
         ShoppingCart shoppingCart =
@@ -79,5 +79,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         List<ShoppingCart> list =
                 shoppingCartMapper.list(shoppingCart);
         return list;
+    }
+
+
+    public void cleanShoppingCart() {
+        Long userId = BaseContext.getCurrentId();
+        shoppingCartMapper.deleteByUserId(userId);
     }
 }
