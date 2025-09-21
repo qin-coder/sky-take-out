@@ -254,6 +254,7 @@ public void repetition(Long id) {
         orderStatisticsVO.setToBeConfirmed(toBeConfirmed);
         orderStatisticsVO.setConfirmed(confirmed);
         orderStatisticsVO.setDeliveryInProgress(deliveryInProgress);
+
         return orderStatisticsVO;
     }
 
