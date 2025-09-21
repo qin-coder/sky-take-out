@@ -297,6 +297,22 @@ public void repetition(Long id) {
         orderMapper.update(orders);
     }
 
+    @Override
+    public void delivery(Long id) {
+        Orders ordersDB = orderMapper.getById(id);
+
+        // 订单只有存在且状态为3（待派送）才可以派送
+        if (ordersDB == null || !ordersDB.getStatus().equals(Orders.CONFIRMED)) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        Orders orders = new Orders();
+        orders.setId(ordersDB.getId());
+        // 更新订单状态,状态转为派送中
+        orders.setStatus(Orders.DELIVERY_IN_PROGRESS);
+        orderMapper.update(orders);
+
+    }
+
     private List<OrderVO> getOrderVOList(Page<Orders> page) {
         // 需要返回订单菜品信息，自定义OrderVO响应结果
         List<OrderVO> orderVOList = new ArrayList<>();
