@@ -162,7 +162,8 @@ public class ReportServiceImpl implements ReportService {
             orderCompletionRate =
                     validOrderCount.doubleValue() / totalOrderCount;
         }
-        OrderReportVO orderReportVO = OrderReportVO
+
+        return OrderReportVO
                 .builder()
                 .dateList(StringUtils.join(dateList, ","))
                 .orderCountList(StringUtils.join(orderCountList, ","))
@@ -170,9 +171,7 @@ public class ReportServiceImpl implements ReportService {
                 .totalOrderCount(totalOrderCount)
                 .validOrderCount(validOrderCount)
                 .orderCompletionRate(orderCompletionRate)
-                .build();
-
-        return orderReportVO;
+                .build();;
     }
 
     private Integer getOrderCount(LocalDateTime begin,
