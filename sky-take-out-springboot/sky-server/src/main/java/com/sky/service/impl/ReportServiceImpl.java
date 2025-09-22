@@ -215,6 +215,10 @@ public class ReportServiceImpl implements ReportService {
 
     }
 
+    /**
+     * 导出营业数据
+     * @param response
+     */
 
     public void exportBusinessData(HttpServletResponse response) {
         LocalDate begin = LocalDate.now().minusDays(30);
@@ -262,10 +266,7 @@ public class ReportServiceImpl implements ReportService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
-
 
     private Integer getOrderCount(LocalDateTime begin,
                                   LocalDateTime end, Integer status) {
