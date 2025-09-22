@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
@@ -21,16 +22,15 @@ import com.sky.service.OrderService;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
-import io.swagger.annotations.ApiOperation;
+import com.sky.websocket.WebSocketServer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
     private AddressBookMapper addressBookMapper;
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
+
 
     /**
      * 用户下单
@@ -93,6 +94,15 @@ public class OrderServiceImpl implements OrderService {
         //4.清空用户购物车数据
         shoppingCartMapper.deleteByUserId(userId);
 
+        //通过websocket 推送消息给前端
+        Map map = new HashMap();
+        map.put("type", 1);
+        map.put("orderId", orders.getId());
+        map.put("content","order num:" + orders.getNumber());
+
+        String json = JSON.toJSONString(map);
+        WebSocketServer.sendToAllClient(json);
+
         //封装一个OrderSubmitVO对象并返回
         return OrderSubmitVO.builder()
                 .id(orders.getId())
@@ -100,6 +110,7 @@ public class OrderServiceImpl implements OrderService {
                 .orderNumber(orders.getNumber())
                 .orderAmount(orders.getAmount())
                 .build();
+
     }
     /**
      * 用户端订单分页查询
