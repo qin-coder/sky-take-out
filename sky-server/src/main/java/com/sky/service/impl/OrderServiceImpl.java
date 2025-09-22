@@ -43,6 +43,8 @@ public class OrderServiceImpl implements OrderService {
     private AddressBookMapper addressBookMapper;
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
 
     /**
@@ -339,6 +341,23 @@ public void repetition(Long id) {
         orders.setDeliveryTime(LocalDateTime.now());
         orderMapper.update(orders);
 
+    }
+
+    /**
+     * 订单催单
+     * @param id
+     */
+    public void reminder(Long id) {
+        Orders ordersDB = orderMapper.getById(id);
+        // 校验订单是否存在
+        if (ordersDB == null ) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        Map map = new HashMap();
+        map.put("type", 2);//1：提醒，2：催单
+        map.put("orderId", id);
+        map.put("content", "来单了，请查收：" + ordersDB.getNumber());
+        webSocketServer.sendToAllClient(JSON.toJSONString(map));
     }
 
     private List<OrderVO> getOrderVOList(Page<Orders> page) {

@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "C端订单接口")
 @Slf4j
 public class OrderController {
-@Autowired
+    @Autowired
     private OrderService orderService;
+
     /**
      * 用户下单
+     *
      * @param ordersSubmitDTO
      * @return
      */
@@ -28,9 +30,11 @@ public class OrderController {
     @ApiOperation("用户下单")
     public Result<OrderSubmitVO> submit(@RequestBody OrdersSubmitDTO ordersSubmitDTO) {
         log.info("用户下单：{}", ordersSubmitDTO);
-        OrderSubmitVO orderSubmitVO = orderService.submitOrder(ordersSubmitDTO);
+        OrderSubmitVO orderSubmitVO =
+                orderService.submitOrder(ordersSubmitDTO);
         return Result.success(orderSubmitVO);
     }
+
     /**
      * 历史订单查询
      *
@@ -41,8 +45,10 @@ public class OrderController {
      */
     @GetMapping("/historyOrders")
     @ApiOperation("历史订单查询")
-    public Result<PageResult> page (int page, int pageSize, Integer status) {
-        PageResult pageResult = orderService.pageQuery4User(page, pageSize, status);
+    public Result<PageResult> page(int page, int pageSize,
+                                   Integer status) {
+        PageResult pageResult = orderService.pageQuery4User(page,
+                pageSize, status);
         return Result.success(pageResult);
     }
 
@@ -66,10 +72,11 @@ public class OrderController {
      */
     @PutMapping("/cancel/{id}")
     @ApiOperation("取消订单")
-    public Result cancel(@PathVariable("id") Long id) throws Exception{
+    public Result cancel(@PathVariable("id") Long id) throws Exception {
         orderService.userCancelById(id);
         return Result.success();
     }
+
     /**
      * 再来一单
      *
@@ -80,6 +87,18 @@ public class OrderController {
     @ApiOperation("再来一单")
     public Result repetition(@PathVariable("id") Long id) {
         orderService.repetition(id);
+        return Result.success();
+    }
+
+    /**
+     * 订单催单
+     * @param id
+     * @return
+     */
+    @GetMapping("/reminder/{id}")
+    @ApiOperation("订单催单")
+    public Result reminder(@PathVariable Long id) {
+        orderService.reminder(id);
         return Result.success();
     }
 }
