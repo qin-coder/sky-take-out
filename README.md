@@ -167,20 +167,25 @@ This project demonstrates a modular architecture, responsive frontend design, an
 ---
 ## 📸 Screenshots
 
+### 1. Homepage
 <div align="center">
   <img src="pics/1.png" width="80%" />
 </div>
 
+### 2. Data Statistics
 <div align="center">
   <img src="pics/2.png" width="80%" />
 </div>
 
+### 3. Order Overview
 <div align="center">
   <img src="pics/3.png" width="80%" />
 </div>
 
+### 4. Dish Categories
 <div align="center">
   <img src="pics/4.png" width="80%" />
 </div>
+
 
 
