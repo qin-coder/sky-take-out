@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "sky.jwt")
 @Data
 public class JwtProperties {
-
+    /**
+     * 是否启用jwt验证
+     */
+    private Boolean enabled = false;
     /**
      * 管理端员工生成jwt令牌相关配置
      */
