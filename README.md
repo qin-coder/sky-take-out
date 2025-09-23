@@ -167,20 +167,20 @@ This project demonstrates a modular architecture, responsive frontend design, an
 ---
 ## 📸 Screenshots
 
-<p align="center">
+<div align="center">
   <img src="pics/1.png" width="80%" />
-</p>
+</div>
 
-<p align="center">
+<div align="center">
   <img src="pics/2.png" width="80%" />
-</p>
+</div>
 
-<p align="center">
+<div align="center">
   <img src="pics/3.png" width="80%" />
-</p>
+</div>
 
-<p align="center">
+<div align="center">
   <img src="pics/4.png" width="80%" />
-</p>
+</div>
 
 
