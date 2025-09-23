@@ -1,6 +1,6 @@
 # Sky Take-Out System
 
-🍔 A full-stack food delivery system built with **Vue 3 + Uniapp + ElementUI** for frontend and **SpringBoot 3.2.5 + MyBatis + MySQL + Redis** for backend.  
+🍔 A full-stack food delivery system built with **Vue 3 + ElementUI** for frontend and **SpringBoot 3.2.5 + MyBatis + MySQL + Redis** for backend.  
 This project demonstrates a modular architecture, responsive frontend design, and RESTful API integration.
 
 ---
@@ -31,7 +31,6 @@ This project demonstrates a modular architecture, responsive frontend design, an
 
 ### 1) User Layer
 - System admin pages: H5, Vue.js, ElementUI, Apache ECharts  
-- Mobile apps: WeChat Mini Program  
 
 ### 2) Gateway Layer
 - **Nginx**: HTTP server, static file deployment, reverse proxy, load balancing for Tomcat  
@@ -72,7 +71,7 @@ This project demonstrates a modular architecture, responsive frontend design, an
 
 1. Clone the repository and open in **VS Code** (frontend) and **IDEA** (backend).  
 2. **Backend Setup**:
-   - Create database and tables using provided SQL file  
+   - Create database and tables first
    - Update database credentials in `application.yml`  
 3. **Frontend Setup**:
    - Create Vue 3 project scaffold  
