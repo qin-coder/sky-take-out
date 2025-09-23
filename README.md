@@ -169,7 +169,7 @@ This project demonstrates a modular architecture, responsive frontend design, an
 
 ### 1. Homepage
 <div align="center">
-  <img src="pics/1.png" width="80%" />
+  <img src="pics/1.png" width="100%" />
 </div>
 
 ### 2. Data Statistics
